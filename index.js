@@ -2,78 +2,77 @@
 const inquirer = require('inquirer');
 const fs = require('fs')
 const generateMarkdown = require('./utils/generateMarkdown');
-const { type } = require('os');
 // TODO: Create an array of questions for user input
 const questions = [
-   
     {
         type: 'input',
-        name: 'Title',
+        name: 'title',
         message: 'what is the Title of your Repo?'
     },
     {
         type: 'input',
-        name: 'Description',
+        name: 'description',
         message: 'Please give a description of the Project!'
     },
     {
         type: 'input',
-        name: 'Contents',
+        name: 'contents',
         message: 'Please provide a Table of Contents'
     },
     {
         type: 'input',
-        name: 'Instalation',
+        name: 'installation',
         message: 'Please give installation instructions'
     },
     {
         type: 'input',
-        name: 'Usage',
+        name: 'usage',
         message: 'What is this Project going to be used for?'
     },
     {
         type: 'input',
-        name: 'Contributors',
+        name: 'contributors',
         message: 'Who contributed to this Project?'
     },
     {
         type: 'list',
-        name: 'License',
-        message: 'Do you want a license?'
+        name: 'license',
+        message: 'Do you want a license?',
+        choices: ["MIT", "APACHE 2.0", "none"]
     },
     {
         type: 'input',
-        name: 'Tests',
+        name: 'tests',
         message: 'Does this project include tests?',
     },
     {
         type: 'input',
-        name: 'Questions',
+        name: 'questions',
         message: 'Do you have any questions regarding this project?',
     },
     {
     type: 'input',
-    name: 'Email',
+    name: 'email',
     message: 'please enter an email address where you can be contacted'
-    },
-    {
-    type: 'input',
-    name: 'Please enter the link to your github profile'
     },
 ];
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, data, (err) =>{
-        if (err)
+        if (err) {
+            console.error(err);
+        } else {
+            console.log('File created!');
+        }
     })
 }
 
 // TODO: Create a function to initialize app
 function init() {
-inquirer.prompt(questions).then((answers)=>{
+inquirer.prompt(questions).then((data)=>{
     console.log('Please wait...')
-    writeToFile('readme.md', generateMarkdown({...answers}))
+    writeToFile('GeneratedReadMe.md', generateMarkdown({...data}))
 })
 }
 
